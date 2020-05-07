@@ -17,8 +17,10 @@ app.listen(port, () => {
         if (err) {
             return console.log(err);
         }
+        else {
+            return console.log('Started on port', port);
+        }
     });
-    console.log('Started on port', port);
 });
 
 app.get('/', (req,res) => {
