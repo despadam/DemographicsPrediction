@@ -43,6 +43,7 @@
 					document.getElementById("done").innerHTML = "Well done! Time elapsed: " + timeDiff + " seconds";
 				}
 			}
+
 		</script>
 
 		<p>Please type the phrase:
@@ -59,5 +60,25 @@
 		</p>
 
 		<p id="done"></p>
+
+
+		<!--The following script records the coords of mouse on any mousemovement.
+			Similarly, we can do for clicks, scroll, etc.
+			Maybe a polling rate is needed, e.g. record movement every 50ms, atm it is continuous -->
+		<p>Mouse:</p>
+
+		<script>
+		document.onmousemove = function(event) { getMousemove(event) };
+		
+		function getMousemove(e) {
+			var data = "";
+			data += Date.now() + " ";
+			data += e.clientX + " ";
+			data += e.clientY + " ";
+			data += "mousemove\n";
+			document.getElementById("mousemovement").innerHTML = data;
+		};
+		</script>
+		<p id="mousemovement"></p>
 	</body>
 </html>
