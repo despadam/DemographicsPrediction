@@ -62,21 +62,36 @@
 
 
 		<!--The following script records the coords of mouse on any mousemovement.
-			Similarly, we can do for clicks, scroll, etc.
-			Maybe a polling rate is needed, e.g. record movement every 50ms, atm it is continuous -->
+			ideas: min/max/avg speed/vertical speed/horizontal speed
+			Similarly, we can do for clicks, scroll, etc.						 -->
+
 		<p>Mouse:</p>
 
 		<script>
-		document.onmousemove = function(event) { getMousemove(event) };
-		
-		function getMousemove(e) {
-			var data = "";
+		//document.onmousemove = function(event) { getMousemove(event) };
+		document.onmousemove = handleMouseMove;
+		setInterval(getMouseMove, 100); //track mouse movements every K milliseconds
+		var data = "";
+		var mouseMoved = false;
+		function handleMouseMove(e) {
+			data = "";
 			data += Date.now() + " ";
 			data += e.clientX + " ";
 			data += e.clientY + " ";
 			data += "mousemove\n";
-			document.getElementById("mousemovement").innerHTML = data;
+			mouseMoved = true;
+			//document.getElementById("mousemovement").innerHTML = data;
 		};
+
+		function getMouseMove() {
+			if (mouseMoved == true) {
+				mouseMoved = false;
+				document.getElementById("mousemovement").innerHTML = data;
+				
+				console.log(data);
+			}
+		};
+
 		</script>
 		<p id="mousemovement"></p>
 	</body>
