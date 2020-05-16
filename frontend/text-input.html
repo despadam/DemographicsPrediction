@@ -70,8 +70,9 @@
 		<script>
 		//document.onmousemove = function(event) { getMousemove(event) };
 		document.onmousemove = handleMouseMove;
-		setInterval(getMouseMove, 100); //track mouse movements every K milliseconds
+		setInterval(getMouseMove, 200); //track mouse movements every K milliseconds
 		var data = "";
+		var mouseX, mouseY, oldmouseX, oldmouseY, timestamp, oldtimestamp;
 		var mouseMoved = false;
 		function handleMouseMove(e) {
 			data = "";
@@ -79,6 +80,12 @@
 			data += e.clientX + " ";
 			data += e.clientY + " ";
 			data += "mousemove\n";
+			oldtimestamp = timestamp;
+			oldmouseX = mouseX;
+			oldmouseY = mouseY;
+			timestamp = Date.now();
+			mouseX = e.clientX;
+			mouseY = e.clientY;
 			mouseMoved = true;
 			//document.getElementById("mousemovement").innerHTML = data;
 		};
@@ -87,8 +94,12 @@
 			if (mouseMoved == true) {
 				mouseMoved = false;
 				document.getElementById("mousemovement").innerHTML = data;
-				
-				console.log(data);
+				mouseXspeed = ( Math.abs(oldmouseX - mouseX) ) / ( (timestamp - oldtimestamp) / 1000);
+				mouseYspeed = ( Math.abs(oldmouseY - mouseY) ) / ( (timestamp - oldtimestamp) / 1000);
+				mousespeed = ( Math.sqrt( Math.pow(oldmouseX - mouseX, 2) + Math.pow(oldmouseY - mouseY, 2) )  ) / ( (timestamp - oldtimestamp) / 1000 ); 
+				console.log(mouseXspeed);
+				console.log(mouseYspeed);
+				console.log(mousespeed);
 			}
 		};
 
