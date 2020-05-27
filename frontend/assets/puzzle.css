@@ -1,0 +1,22 @@
+body {
+    font-family: Mukta !important;
+}
+
+#puzzle-container {
+    /* height: 440px;
+    width: 660px; */
+    height: 350px;
+    width: 520px;
+    margin: auto;
+    position: relative;
+}
+
+.text-container {
+    position: absolute;
+    width: 100%;
+    /* padding-top: 200px; */
+    padding-top: 150px;
+    text-align: center;
+    font-size: 25px;
+    color: lavender;
+}

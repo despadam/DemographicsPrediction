@@ -1,24 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-            #puzzle-container {
-                height: 440px;
-                width: 660px;
-                position: relative;
-            }
-
-            .text-container {
-                position: absolute;
-                height: 100%;
-                width: 100%;
-                padding-top: 200px;
-                text-align: center;
-                font-size: 25px;
-                color: lavender;
-                font-family: sans-serif;
-            }
-        </style>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="assets/puzzle.css">
+        <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
     </head>
     <body>
         <script>
@@ -45,7 +30,7 @@
 
             window.onload = function() {
 				_img = new Image();
-                _img.src = 'laptop.jpg';
+                _img.src = 'assets/laptop2.jpg';
                 _img.addEventListener('load', onImageLoad, false);
 			}
 

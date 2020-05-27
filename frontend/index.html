@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>Demographics Predictor</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="assets/styles.css">
+        <link rel="stylesheet" type="text/css" href="assets/radio-input.css">
+        <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
+	</head>
+	<body>
+        <script>
+            var currentTab = 0;
+
+            window.onload = function() {
+                showTab();
+			}
+
+            // display current tab
+            function showTab() {
+                var tabs = document.getElementsByClassName("tab");
+                tabs[currentTab].style.display = "block";
+
+                // display "Submit" button 
+                if (currentTab == (tabs.length - 1)) {
+                    document.getElementById("nextBtn").innerHTML = "Submit";
+                }
+                else {
+                    document.getElementById("nextBtn").innerHTML = "Next";
+                }
+
+                // remove class "active" from all tab-steps
+                var steps = document.getElementsByClassName("tab-step");
+                for (var i = 0; i < steps.length; i++) {
+                    steps[i].className = steps[i].className.replace(" active", "");
+                }
+                // add class "active" to the current step
+                steps[currentTab].className += " active";
+            }
+
+            function nextTab() {
+                // cannot click "Next" if inputs are invalid
+                if (!validateInputs()) return false;
+
+                var tabs = document.getElementsByClassName("tab");
+                // hide the current tab
+                tabs[currentTab].style.display = "none";
+                // increase the current tab value by 1
+                currentTab++;
+
+                // submit the form or display the correct tab
+                if (currentTab >= tabs.length) {
+                    document.getElementById("form").submit();
+                    return false;
+                }
+                else {
+                    showTab();
+                }
+            }
+            
+            function validateInputs() {
+                if (currentTab == 0) {
+                    var isGenderValid = false;
+                    var isAgegroupValid = false;
+                    var genderInputs = document.getElementsByName('gender');
+                    var agegroupInputs = document.getElementsByName('agegroup');
+
+                    // for each input check if a value is selected
+                    for (var i = 0; i < genderInputs.length; i++) {
+                        if (genderInputs[i].checked) {
+                            isGenderValid = true;
+                            break;
+                        }
+                    }
+                    for (var i = 0; i < agegroupInputs.length; i++) {
+                        if (agegroupInputs[i].checked) {
+                            isAgegroupValid = true;
+                            break;
+                        }
+                    }
+
+                    // both values must be valid in order to move to the next tab
+                    return isGenderValid && isAgegroupValid;
+                }
+
+                // TODO: validate next tabs
+                return true;
+            }
+        </script>
+
+        <h1>Demographics Prediction</h1>
+
+        <form id="form">
+            <div class="tab">
+                <h3>Welcome!</h3>
+                <p>In order to help us complete the first stage of our expreriment, please fill in the following and click 'Next' to solve some fun puzzles.</p>
+
+                <p class="radio-input-title">Gender:</p>
+                <label class="radio-input-container"> Male
+                    <input type="radio" name="gender" value="male">
+                    <span class="radio-input-checkmark"></span>
+                </label>
+                <label class="radio-input-container"> Female
+                    <input type="radio" name="gender" value="female">
+                    <span class="radio-input-checkmark"></span>
+                </label>
+
+                <p class="radio-input-title">Age Group:</p>
+                <label class="radio-input-container"> < 18
+                    <input type="radio" name="agegroup" value="underaged">
+                    <span class="radio-input-checkmark"></span>
+                </label>
+                <label class="radio-input-container"> 18 - 25
+                    <input type="radio" name="agegroup" value="young">
+                    <span class="radio-input-checkmark"></span>
+                </label>
+                <label class="radio-input-container"> 26 - 65
+                    <input type="radio" name="agegroup" value="adult">
+                    <span class="radio-input-checkmark"></span>
+                </label>
+                <label class="radio-input-container"> > 65
+                    <input type="radio" name="agegroup" value="elderly">
+                    <span class="radio-input-checkmark"></span>
+                </label>
+            </div>
+
+            <div class="tab">
+                <iframe src="text-input.html"></iframe>
+            </div>
+
+            <div class="tab">
+                <iframe src="puzzle.html"></iframe>
+            </div>
+
+            <div class="tab-buttons">
+                <button type="button" id="nextBtn" class="tab-button" onclick="nextTab()">Next</button>
+            </div>
+
+            <div class="tab-steps">
+                <span class="tab-step"></span>
+                <span class="tab-step"></span>
+                <span class="tab-step"></span>
+            </div>
+        </form>
+    </body>
+</html>

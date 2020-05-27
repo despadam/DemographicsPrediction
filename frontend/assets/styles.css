@@ -1,0 +1,65 @@
+body {
+    background-color: #f1f1f1;
+    font-family: Mukta !important;
+}
+
+h1 {
+    text-align: center;  
+}
+
+#form {
+    background-color: #ffffff;
+    margin: 30px auto;
+    padding: 40px;
+    width: 70%;
+    min-width: 300px;
+}
+
+.tab {
+    display: none;
+}
+
+.tab-buttons {
+    overflow: auto;
+    float: right;
+}
+
+.tab-button {
+    background-color: #007399;
+    color: #ffffff;
+    border: none;
+    padding: 7px 14px;
+    font-size: 16px;
+    font-family: Mukta;
+    cursor: pointer;
+}
+
+.tab-button:hover {
+    opacity: 0.8;
+}
+
+.tab-steps {
+    text-align: center;
+    margin-top: 55px;
+}
+
+.tab-step {
+    height: 10px;
+    width: 10px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;  
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.tab-step.active {
+    opacity: 1;
+}
+
+iframe {
+    width: 100%;
+    border: none;
+    height: 55vh;
+}
