@@ -1,0 +1,70 @@
+body {
+    font-family: Mukta !important;
+}
+
+#game-container {
+    width: 500px;
+    height: 300px;
+    position: relative;
+    margin: auto;
+}
+
+.up-button {
+    position: absolute;
+    top: 0;
+    width: 500px;
+    height: 50px;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.down-button {
+    position: absolute;
+    top: 250px;
+    width: 500px;
+    height: 50px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.canvas-container {
+    position: absolute;
+    top: 50px;
+    width: 500px;
+    height: 200px;
+}
+
+#canvas {
+    width: 400px;
+    height: 200px;
+    border: 1px solid #d3d3d3;
+    background-color: #f1f1f1;
+    float: left;
+}
+
+.left-button {
+    margin-top: 85px;
+    margin-right: 20px;
+    float: left;
+}
+
+.right-button {
+    margin-top: 85px;
+    margin-left: 20px;
+    float: left;
+}
+
+button {
+    cursor: pointer;
+}
+
+#done {
+    width: 500px;
+    height: 180px;
+    padding-top: 120px;
+    background: #f1f1f1;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    font-size: 140%;
+    margin: auto;
+}
