@@ -10,6 +10,7 @@
 	<body>
         <script>
             var currentTab = 0;
+            var formValue = {};
 
             window.onload = function() {
                 showTab();
@@ -20,41 +21,45 @@
                 var tabs = document.getElementsByClassName("tab");
                 tabs[currentTab].style.display = "block";
 
-                // display "Submit" button 
-                if (currentTab == (tabs.length - 1)) {
-                    document.getElementById("nextBtn").innerHTML = "Submit";
+                // if form is submitted hide the button area and the steps
+                if (currentTab == tabs.length - 1) {
+                    document.getElementById("tab-buttons").style.display = "none";
+                    document.getElementById("tab-steps").style.display = "none";
                 }
                 else {
-                    document.getElementById("nextBtn").innerHTML = "Next";
-                }
+                    // display "Next" or "Submit" button 
+                    if (currentTab == tabs.length - 2) {
+                        document.getElementById("nextBtn").innerHTML = "Submit";
+                    }
+                    else {
+                        document.getElementById("nextBtn").innerHTML = "Next";
+                    }
 
-                // remove class "active" from all tab-steps
-                var steps = document.getElementsByClassName("tab-step");
-                for (var i = 0; i < steps.length; i++) {
-                    steps[i].className = steps[i].className.replace(" active", "");
+                    // remove class "active" from all tab-steps
+                    var steps = document.getElementsByClassName("tab-step");
+                    for (var i = 0; i < steps.length; i++) {
+                        steps[i].className = steps[i].className.replace(" active", "");
+                    }
+                    // add class "active" to the current step
+                    steps[currentTab].className += " active";
                 }
-                // add class "active" to the current step
-                steps[currentTab].className += " active";
             }
 
             function nextTab() {
                 // cannot click "Next" if inputs are invalid
                 if (!validateInputs()) return false;
 
+                // hide the current tab & increase the current tab value by 1
                 var tabs = document.getElementsByClassName("tab");
-                // hide the current tab
                 tabs[currentTab].style.display = "none";
-                // increase the current tab value by 1
                 currentTab++;
 
                 // submit the form or display the correct tab
-                if (currentTab >= tabs.length) {
-                    document.getElementById("form").submit();
-                    return false;
+                if (currentTab == tabs.length - 1) {
+                    // DO SUBMIT
+                    console.log(formValue);
                 }
-                else {
-                    showTab();
-                }
+                showTab();
             }
             
             function validateInputs() {
@@ -67,12 +72,14 @@
                     // for each input check if a value is selected
                     for (var i = 0; i < genderInputs.length; i++) {
                         if (genderInputs[i].checked) {
+                            formValue["gender"] = genderInputs[i].value;
                             isGenderValid = true;
                             break;
                         }
                     }
                     for (var i = 0; i < agegroupInputs.length; i++) {
                         if (agegroupInputs[i].checked) {
+                            formValue["agegroup"] = agegroupInputs[i].value;
                             isAgegroupValid = true;
                             break;
                         }
@@ -87,8 +94,9 @@
                     if (iframeDoc.getElementById("time").innerHTML == '') {
                         return false;
                     }
-                    console.log(iframeDoc.getElementById("time").innerHTML);
-                    console.log(iframeDoc.getElementById("errors").innerHTML);
+
+                    formValue["typingTime"] = iframeDoc.getElementById("time").innerHTML;
+                    formValue["typingErrors"] = iframeDoc.getElementById("errors").innerHTML;
                     return true;
                 }
                 else if (currentTab == 2) {
@@ -97,8 +105,9 @@
                     if (iframeDoc.getElementById("moves").innerHTML == '') {
                         return false;
                     }
-                    console.log(iframeDoc.getElementById("moves").innerHTML);
-                    console.log(iframeDoc.getElementById("avg").innerHTML);
+
+                    formValue["puzzleMoves"] = iframeDoc.getElementById("moves").innerHTML;
+                    formValue["puzzleAvgMoveTime"] = iframeDoc.getElementById("avg").innerHTML;
                     return true;
                 }
                 else if (currentTab == 3) {
@@ -157,11 +166,15 @@
                 <iframe id="block-game" src="block-game.html"></iframe>
             </div>
 
-            <div class="tab-buttons">
+            <div class="tab last-tab">
+                <h3>Thank you for your time!</h3>
+            </div>
+
+            <div id="tab-buttons">
                 <button type="button" id="nextBtn" class="tab-button" onclick="nextTab()">Next</button>
             </div>
 
-            <div class="tab-steps">
+            <div id="tab-steps">
                 <span class="tab-step"></span>
                 <span class="tab-step"></span>
                 <span class="tab-step"></span>

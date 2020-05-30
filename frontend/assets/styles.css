@@ -21,9 +21,16 @@ h1 {
 
 .info-tab {
     height: 59vh;
+    padding: 0 25px;
 }
 
-.tab-buttons {
+.last-tab {
+    text-align: center;
+    height: 120px;
+    padding-top: 40px;
+}
+
+#tab-buttons {
     overflow: auto;
     float: right;
 }
@@ -42,7 +49,7 @@ h1 {
     opacity: 0.8;
 }
 
-.tab-steps {
+#tab-steps {
     text-align: center;
     margin-top: 55px;
 }
