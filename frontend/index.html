@@ -83,7 +83,7 @@
                 }
                 else if (currentTab == 1) {
                     var iframeDoc = document.getElementById("text-input").contentWindow.document;
-                    console.log(iframeDoc);
+                    // console.log(iframeDoc);
 
                     if (iframeDoc.getElementById("time").innerHTML == '') {
                         return false;
@@ -91,6 +91,19 @@
                     else {
                         console.log(iframeDoc.getElementById("time").innerHTML);
 					    console.log(iframeDoc.getElementById("errors").innerHTML);
+                        return true;
+                    }
+                }
+                else if (currentTab == 2) {
+                    var iframeDoc = document.getElementById("puzzle").contentWindow.document;
+                    console.log(iframeDoc);
+
+                    if (iframeDoc.getElementById("moves").innerHTML == '') {
+                        return false;
+                    }
+                    else {
+                        console.log(iframeDoc.getElementById("moves").innerHTML);
+					    console.log(iframeDoc.getElementById("avg").innerHTML);
                         return true;
                     }
                 }
@@ -141,7 +154,7 @@
             </div>
 
             <div class="tab">
-                <iframe src="puzzle.html"></iframe>
+                <iframe id="puzzle" src="puzzle.html"></iframe>
             </div>
 
             <div class="tab">

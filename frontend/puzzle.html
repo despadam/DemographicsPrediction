@@ -223,10 +223,9 @@
                 }
                 var avg = total / moves.length;
 
-                document.getElementById('metrics').innerHTML = `
-                    Number of moves: ` + moves.length + `<br/>
-                    Average time of a move: ` + avg + ` seconds
-                `;
+                document.getElementById('moves').innerHTML = moves.length;
+                document.getElementById('avg').innerHTML = avg;
+                document.getElementById('metrics').style.display = 'block';
 
                 document.getElementById('puzzle-container').onmousedown = null;
                 document.getElementById('puzzle-container').onmousemove = null;
@@ -236,10 +235,14 @@
         </script>
 
         <div id="puzzle-container">
-            <div id="puzzle-text" class="text-container"> Click to start the puzzle! </div>
+            <div id="puzzle-text" class="text-container">Click to start the puzzle!</div>
             <div id="done" class="text-container" style="display: none;">Well done!</div>
             <canvas id="canvas"></canvas>
         </div>
-        <p id="metrics"></p>
+        <p id="metrics">
+            Number of moves: <span id="moves"></span>
+            <br/>
+            Average time of a move: <span id="avg"></span> seconds
+        </p>
     </body>
 </html>
