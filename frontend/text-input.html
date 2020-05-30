@@ -42,7 +42,8 @@
 					var timeDiff = (endTime - startTime) / 1000;
 
 					document.getElementById("input").disabled = true;
-					document.getElementById("done").innerHTML = "Well done! Time elapsed: " + timeDiff + " seconds";
+					document.getElementById("time").innerHTML = timeDiff;
+					document.getElementById("done").style.display = "block";
 				}
 			}
 		</script>
@@ -55,12 +56,9 @@
 			</script>
 		</p>
 		<input type="text" size="80" id="input" onkeydown="getKey(event)" oninput="getInput()"/>
-		<p>
-			<span>Num of errors: </span>
-			<span id="errors"> 0 </span>
-		</p>
-		<p id="done"></p>
-
+		<p>Num of errors: <span id="errors"> 0 </span></p>
+		<p id="done">Well done! Time elapsed: <span id="time"></span> seconds</p>
+		<br/>
 
 		<!--The following script records the coords of mouse on any mousemovement.
 			ideas: min/max/avg speed/vertical speed/horizontal speed

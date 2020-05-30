@@ -81,6 +81,18 @@
                     // both values must be valid in order to move to the next tab
                     return isGenderValid && isAgegroupValid;
                 }
+                else if (currentTab == 1) {
+                    var iframeDoc = document.getElementById("text-input").contentWindow.document;
+
+                    if (iframeDoc.getElementById("time").innerHTML == '') {
+                        return false;
+                    }
+                    else {
+                        console.log(iframeDoc.getElementById("time").innerHTML);
+					    console.log(iframeDoc.getElementById("errors").innerHTML);
+                        return true;
+                    }
+                }
 
                 // TODO: validate next tabs
                 return true;
@@ -124,7 +136,7 @@
             </div>
 
             <div class="tab">
-                <iframe src="text-input.html"></iframe>
+                <iframe id="text-input" src="text-input.html"></iframe>
             </div>
 
             <div class="tab">
