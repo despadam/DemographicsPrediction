@@ -83,6 +83,7 @@
                 }
                 else if (currentTab == 1) {
                     var iframeDoc = document.getElementById("text-input").contentWindow.document;
+                    console.log(iframeDoc);
 
                     if (iframeDoc.getElementById("time").innerHTML == '') {
                         return false;
