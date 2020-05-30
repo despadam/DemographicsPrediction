@@ -9,14 +9,18 @@ h1 {
 
 #form {
     background-color: #ffffff;
-    margin: 30px auto;
-    padding: 40px;
+    margin: 20px auto;
+    padding: 30px 40px 20px 40px;
     width: 70%;
-    min-width: 300px;
+    min-width: 400px;
 }
 
 .tab {
     display: none;
+}
+
+.info-tab {
+    height: 59vh;
 }
 
 .tab-buttons {
@@ -61,5 +65,5 @@ h1 {
 iframe {
     width: 100%;
     border: none;
-    height: 55vh;
+    height: 60vh;
 }
