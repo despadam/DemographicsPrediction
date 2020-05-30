@@ -17,8 +17,8 @@
 
 				myGameArea = {
 					start: function() {
-						canvas.width = 400;
-						canvas.height = 200;
+						canvas.width = 500;
+						canvas.height = 300;
 						this.context = canvas.getContext("2d");
 						updateGameArea();
 					},
@@ -32,21 +32,21 @@
 
 			function startGame() {
 				var Xs = [], Ys = [];
-				for (var i = 0; i <= 370; i += 10) {
+				for (var i = 0; i <= 460; i += 10) {
 					Xs.push(i);
 				}
-				for (var i = 0; i <= 170; i += 10) {
+				for (var i = 0; i <= 260; i += 10) {
 					Ys.push(i);
 				}
 
 				var posX, posY;
 				posX = Xs[Math.floor(Math.random() * Xs.length)];
 				posY = Ys[Math.floor(Math.random() * Ys.length)];
-				myGamePiece = new pieceComponent(30, 30, "#990033", posX, posY);
+				myGamePiece = new pieceComponent(40, 40, "#990033", posX, posY);
 
 				posX = Xs[Math.floor(Math.random() * Xs.length)];
 				posY = Ys[Math.floor(Math.random() * Ys.length)];
-				myGameTarget = new targetComponent(30, 30, "#006600", posX, posY);
+				myGameTarget = new targetComponent(40, 40, "#006600", posX, posY);
 				myGameArea.start();
 			}
 
@@ -65,10 +65,10 @@
 				}
 
 				this.newPos = function() {
-					if (this.x + this.speedX >= 0 && this.x + this.speedX <= 370) {
+					if (this.x + this.speedX >= 0 && this.x + this.speedX <= 460) {
 						this.x += this.speedX;
 					}
-					if (this.y + this.speedY >= 0 && this.y + this.speedY <= 170) {
+					if (this.y + this.speedY >= 0 && this.y + this.speedY <= 260) {
 						this.y += this.speedY;
 					}
 

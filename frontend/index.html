@@ -83,32 +83,28 @@
                 }
                 else if (currentTab == 1) {
                     var iframeDoc = document.getElementById("text-input").contentWindow.document;
-                    // console.log(iframeDoc);
 
                     if (iframeDoc.getElementById("time").innerHTML == '') {
                         return false;
                     }
-                    else {
-                        console.log(iframeDoc.getElementById("time").innerHTML);
-					    console.log(iframeDoc.getElementById("errors").innerHTML);
-                        return true;
-                    }
+                    console.log(iframeDoc.getElementById("time").innerHTML);
+                    console.log(iframeDoc.getElementById("errors").innerHTML);
+                    return true;
                 }
                 else if (currentTab == 2) {
                     var iframeDoc = document.getElementById("puzzle").contentWindow.document;
-                    console.log(iframeDoc);
 
                     if (iframeDoc.getElementById("moves").innerHTML == '') {
                         return false;
                     }
-                    else {
-                        console.log(iframeDoc.getElementById("moves").innerHTML);
-					    console.log(iframeDoc.getElementById("avg").innerHTML);
-                        return true;
-                    }
+                    console.log(iframeDoc.getElementById("moves").innerHTML);
+                    console.log(iframeDoc.getElementById("avg").innerHTML);
+                    return true;
                 }
-
-                // TODO: validate next tabs
+                else if (currentTab == 3) {
+                    var iframeDoc = document.getElementById("block-game").contentWindow.document;
+                    return iframeDoc.getElementById("done").style.display != "none";
+                }
                 return true;
             }
         </script>
@@ -158,7 +154,7 @@
             </div>
 
             <div class="tab">
-                <iframe src="block-game.html"></iframe>
+                <iframe id="block-game" src="block-game.html"></iframe>
             </div>
 
             <div class="tab-buttons">

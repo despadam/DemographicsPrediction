@@ -3,59 +3,71 @@ body {
 }
 
 #game-container {
-    width: 500px;
-    height: 300px;
+    width: 600px;
+    height: 400px;
     position: relative;
     margin: auto;
-}
-
-.up-button {
-    position: absolute;
-    top: 0;
-    width: 500px;
-    height: 50px;
-    text-align: center;
-    padding-top: 10px;
-}
-
-.down-button {
-    position: absolute;
-    top: 250px;
-    width: 500px;
-    height: 50px;
-    text-align: center;
-    padding-top: 20px;
 }
 
 .canvas-container {
     position: absolute;
     top: 50px;
-    width: 500px;
-    height: 200px;
+    width: 600px;
+    height: 300px;
 }
 
 #canvas {
-    width: 400px;
-    height: 200px;
+    width: 500px;
+    height: 300px;
     border: 1px solid #d3d3d3;
     background-color: #f1f1f1;
     float: left;
 }
 
-.left-button {
-    margin-top: 85px;
-    margin-right: 20px;
+button {
+    background-color: lightgray;
+    border: solid 1px;
+    font-size: 20px;
+    font-family: Mukta;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.up-button, .down-button {
+    position: absolute;
+    text-align: center;
+    width: 600px;
+    height: 50px;
+    padding-top: 7px;
+}
+
+.up-button button, .down-button button {
+    padding: 2px 12px;
+}
+
+.up-button {
+    top: 0;
+}
+
+.down-button {
+    top: 350px;
+}
+
+.left-button, .right-button {
+    margin-top: 120px;
+    padding: 2px 9px;
     float: left;
+}
+
+.left-button {
+    margin-right: 5px;
 }
 
 .right-button {
-    margin-top: 85px;
-    margin-left: 20px;
-    float: left;
-}
-
-button {
-    cursor: pointer;
+    margin-left: 5px;
 }
 
 #done {
@@ -67,4 +79,5 @@ button {
     text-align: center;
     font-size: 140%;
     margin: auto;
+    margin-top: 50px;
 }
