@@ -60,25 +60,18 @@
 		<p id="done">Well done! Time elapsed: <span id="time"></span> seconds</p>
 		<br/>
 
+
 		<!--The following script records the coords of mouse on any mousemovement.
 			ideas: min/max/avg speed/vertical speed/horizontal speed
 			Similarly, we can do for clicks, scroll, etc.						 -->
 
-		<p>Mouse:</p>
-
 		<script>
-		//document.onmousemove = function(event) { getMousemove(event) };
 		document.onmousemove = handleMouseMove;
 		setInterval(getMouseMove, 200); //track mouse movements every K milliseconds
-		var data = "";
+		var mouseSpeedAvg=0.0, mouseSpeedMax=0.0, mouseSpeedMin=Infinity, mouseSpeedSum=0.0, nofMouseMoves=0;
 		var mouseX, mouseY, oldmouseX, oldmouseY, timestamp, oldtimestamp;
 		var mouseMoved = false;
 		function handleMouseMove(e) {
-			data = "";
-			data += Date.now() + " ";
-			data += e.clientX + " ";
-			data += e.clientY + " ";
-			data += "mousemove\n";
 			oldtimestamp = timestamp;
 			oldmouseX = mouseX;
 			oldmouseY = mouseY;
@@ -86,23 +79,86 @@
 			mouseX = e.clientX;
 			mouseY = e.clientY;
 			mouseMoved = true;
-			//document.getElementById("mousemovement").innerHTML = data;
 		};
 
 		function getMouseMove() {
 			if (mouseMoved == true) {
 				mouseMoved = false;
-				document.getElementById("mousemovement").innerHTML = data;
-				mouseXspeed = ( Math.abs(oldmouseX - mouseX) ) / ( (timestamp - oldtimestamp) / 1000);
-				mouseYspeed = ( Math.abs(oldmouseY - mouseY) ) / ( (timestamp - oldtimestamp) / 1000);
-				mousespeed = ( Math.sqrt( Math.pow(oldmouseX - mouseX, 2) + Math.pow(oldmouseY - mouseY, 2) )  ) / ( (timestamp - oldtimestamp) / 1000 ); 
-				console.log(mouseXspeed);
-				console.log(mouseYspeed);
-				console.log(mousespeed);
+				mouseSpeed = ( Math.sqrt( Math.pow(oldmouseX - mouseX, 2) + Math.pow(oldmouseY - mouseY, 2) )  ) / ( (timestamp - oldtimestamp) / 1000 ); 
+				mouseSpeedSum += mouseSpeed;
+				nofMouseMoves += 1;
+				mouseSpeedAvg = mouseSpeedSum / nofMouseMoves;
+				if(mouseSpeed > mouseSpeedMax)
+					mouseSpeedMax = mouseSpeed;
+				if(mouseSpeed < mouseSpeedMin)
+					mouseSpeedMin = mouseSpeed
+
+				//console.log(mouseSpeed);
+				//console.log(mouseSpeedSum);
+				//console.log(nofMouseMoves);
+				//console.log(mouseSpeedAvg);
+				//console.log(mouseSpeedMax);
+				//console.log(mouseSpeedMin);
 			}
 		};
-
 		</script>
-		<p id="mousemovement"></p>
+
+		<script>
+		document.onclick = handleMouseClick
+		var nofMouseClicks=0, lastTimeClicked = Date.now(), timeBetweenClicksMin=Infinity, timeBetweenClicksMax=0.0, timeBetweenClicksAvg=0.0, timeBetweenClicksSum=0.0;
+		function handleMouseClick(e) {
+			nofMouseClicks += 1;
+			timeBetweenClicks = (Date.now() - lastTimeClicked) / 1000;
+			lastTimeClicked = Date.now();
+			timeBetweenClicksSum += timeBetweenClicks;
+			timeBetweenClicksAvg = timeBetweenClicksSum / nofMouseClicks;
+			if(timeBetweenClicks > timeBetweenClicksMax)
+				timeBetweenClicksMax = timeBetweenClicks;
+			if(timeBetweenClicks < timeBetweenClicksMin)
+				timeBetweenClicksMin = timeBetweenClicks;
+
+			console.log(timeBetweenClicksAvg);
+			console.log(timeBetweenClicksMax);
+			console.log(timeBetweenClicksMin);
+		};
+		</script>
+
+		<script>	// for scrolling with wheel
+		document.onwheel = handleWheelMove;
+		var nofWheelEvents=0, scrolledUpwards=0, scrolledDownwards=0;
+		function handleWheelMove(e) {
+			nofWheelEvents += 1;
+			if(e.deltaY > 0)	// not crossplatformed, reported in pixels for every browser, lines for firefox
+				scrolledUpwards += e.deltaY;
+			else
+				scrolledDownwards -= e.deltaY;
+
+			//console.log(nofWheelEvents);
+			//console.log(scrolledUpwards);
+			//console.log(scrolledDownwards);
+		};
+		</script>
+
+		<script>	// typing metrics
+		document.onkeydown = handleTyping;
+		var nofKeysPressed=0, timeBetweenKeysMin=Infinity, timeBetweenKeysMax=0.0, timeBetweenKeysSum=0.0, timeBetweenKeysAvg=0.0, lastTimePressed = Date.now();
+		function handleTyping(e){
+			nofKeysPressed += 1;
+			timeBetweenKeys = (Date.now() - lastTimePressed) / 1000;	// in seconds
+			lastTimePressed = Date.now();
+			timeBetweenKeysSum += timeBetweenKeys;
+			timeBetweenKeysAvg = timeBetweenKeysSum / nofKeysPressed;
+			if(timeBetweenKeys > timeBetweenKeysMax)
+				timeBetweenKeysMax = timeBetweenKeys;
+			if(timeBetweenKeys < timeBetweenKeysMin)
+				timeBetweenKeysMin = timeBetweenKeys;
+
+
+			//console.log(timeBetweenKeysAvg);
+			//console.log(timeBetweenKeysMax);
+			//console.log(timeBetweenKeysMin);
+		};
+		</script>
+
 	</body>
 </html>
