@@ -116,6 +116,24 @@
 			}
 		</script>
 
+
+		<script src="metrics.js"></script>
+		<script>    // get metrics
+			// variables
+			var mouseSpeedAvg=0.0, mouseSpeedMax=0.0, mouseSpeedMin=Infinity, mouseSpeedSum=0.0, nofMouseMoves=0;
+			var mouseX, mouseY, oldmouseX, oldmouseY, timestamp, oldtimestamp;
+			var mouseMoved = false;
+			var nofMouseClicks=0, lastTimeClicked = Date.now(), timeBetweenClicksMin=Infinity, timeBetweenClicksMax=0.0, timeBetweenClicksAvg=0.0, timeBetweenClicksSum=0.0;
+			var nofWheelEvents=0; // scrolledUpwards=0, scrolledDownwards=0;
+			var nofKeysPressed=0, timeBetweenKeysMin=Infinity, timeBetweenKeysMax=0.0, timeBetweenKeysSum=0.0, timeBetweenKeysAvg=0.0, lastTimePressed = Date.now();
+			// event handlers
+			document.onmousemove = handleMouseMove;
+			setInterval(getMouseMove, 200); //track mouse movements every K milliseconds
+			document.onclick = handleMouseClick
+			document.onwheel = handleWheelMove;
+			document.onkeydown = handleTyping;
+		</script>
+
 		<div id="game-container">
 			<div class="up-button">
 				<button onclick="verticalMove(-10)" onmouseup="stopMove()"> &#8679; </button>
