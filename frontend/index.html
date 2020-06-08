@@ -56,6 +56,21 @@
 
                 // submit the form or display the correct tab
                 if (currentTab == tabs.length - 1) {
+                    // combine metrics of iframes and index
+                    formValue["nofMouseMoves"] = nofMouseMoves + nofMouseMoves_text + nofMouseMoves_puzzle + nofMouseMoves_blockgame;
+                    formValue["nofMouseClicks"] = nofMouseClicks + nofMouseClicks_text + nofMouseClicks_puzzle + nofMouseClicks_blockgame;
+                    formValue["nofWheelEvents"] = nofWheelEvents + nofWheelEvents_text + nofWheelEvents_puzzle + nofWheelEvents_blockgame;
+                    formValue["nofKeysPressed"] = nofKeysPressed + nofKeysPressed_text + nofKeysPressed_puzzle + nofKeysPressed_blockgame;
+                    formValue["mouseSpeedMin"] = Math.min(mouseSpeedMin, mouseSpeedMin_text, mouseSpeedMin_puzzle, mouseSpeedMin_blockgame);
+                    formValue["mousespeedMax"] = Math.max(mouseSpeedMax, mouseSpeedMax_text, mouseSpeedMax_puzzle, mouseSpeedMax_blockgame);
+                    formValue["mouseSpeedAvg"] = (mouseSpeedAvg + mouseSpeedAvg_text + mouseSpeedAvg_puzzle + mouseSpeedAvg_blockgame) / 4;
+                    formValue["timeBetweenClicksMin"] = Math.min(timeBetweenClicksMin, timeBetweenClicksMin_text, timeBetweenClicksMin_puzzle, timeBetweenClicksMin_blockgame);
+                    formValue["timeBetweenClicksMax"] = Math.max(timeBetweenClicksMax, timeBetweenClicksMax_text, timeBetweenClicksMax_puzzle, timeBetweenClicksMax_blockgame);
+                    formValue["timeBetweenClicksAvg"] = (timeBetweenClicksAvg + timeBetweenClicksAvg_text + timeBetweenClicksAvg_puzzle + timeBetweenClicksAvg_blockgame) / 4;
+                    formValue["timeBetweenKeysMin"] = Math.min(timeBetweenKeysMin, timeBetweenKeysMin_text, timeBetweenKeysMin_puzzle, timeBetweenKeysMin_blockgame);
+                    formValue["timeBetweenKeysMax"] = Math.max(timeBetweenKeysMax, timeBetweenKeysMax_text, timeBetweenKeysMax_puzzle, timeBetweenKeysMax_blockgame);
+                    formValue["timeBetweenKeysAvg"] = (timeBetweenKeysAvg + timeBetweenKeysAvg_text + timeBetweenKeysAvg_puzzle + timeBetweenKeysAvg_blockgame) / 4; 
+                    
                     // DO SUBMIT
                     console.log(formValue);
                 }
@@ -94,7 +109,12 @@
                     if (iframeDoc.getElementById("time").innerHTML == '') {
                         return false;
                     }
-
+                    // get metrics from this iframe
+                    var iframeWin = document.getElementById("text-input").contentWindow;
+                    nofMouseMoves_text = iframeWin.nofMouseMoves; nofMouseClicks_text = iframeWin.nofMouseClicks; nofWheelEvents_text = iframeWin.nofWheelEvents; nofKeysPressed_text = iframeWin.nofKeysPressed;
+                    mouseSpeedMin_text = iframeWin.mouseSpeedMin; mouseSpeedMax_text = iframeWin.mouseSpeedMax; mouseSpeedAvg_text = iframeWin.mouseSpeedAvg;
+                    timeBetweenClicksMin_text = iframeWin.timeBetweenClicksMin; timeBetweenClicksMax_text = iframeWin.timeBetweenClicksMax; timeBetweenClicksAvg_text = iframeWin.timeBetweenClicksAvg;
+                    timeBetweenKeysMin_text = iframeWin.timeBetweenKeysMin; timeBetweenKeysMax_text = iframeWin.timeBetweenKeysMax; timeBetweenKeysAvg_text = iframeWin.timeBetweenKeysAvg;
                     formValue["typingTime"] = iframeDoc.getElementById("time").innerHTML;
                     formValue["typingErrors"] = iframeDoc.getElementById("errors").innerHTML;
                     return true;
@@ -105,13 +125,25 @@
                     if (iframeDoc.getElementById("moves").innerHTML == '') {
                         return false;
                     }
-
+                    // get metrics from this iframe
+                    var iframeWin = document.getElementById("puzzle").contentWindow;
+                    nofMouseMoves_puzzle = iframeWin.nofMouseMoves; nofMouseClicks_puzzle = iframeWin.nofMouseClicks; nofWheelEvents_puzzle = iframeWin.nofWheelEvents; nofKeysPressed_puzzle = iframeWin.nofKeysPressed;
+                    mouseSpeedMin_puzzle = iframeWin.mouseSpeedMin; mouseSpeedMax_puzzle = iframeWin.mouseSpeedMax; mouseSpeedAvg_puzzle = iframeWin.mouseSpeedAvg;
+                    timeBetweenClicksMin_puzzle = iframeWin.timeBetweenClicksMin; timeBetweenClicksMax_puzzle = iframeWin.timeBetweenClicksMax; timeBetweenClicksAvg_puzzle = iframeWin.timeBetweenClicksAvg;
+                    timeBetweenKeysMin_puzzle = iframeWin.timeBetweenKeysMin; timeBetweenKeysMax_puzzle = iframeWin.timeBetweenKeysMax; timeBetweenKeysAvg_puzzle = iframeWin.timeBetweenKeysAvg;
                     formValue["puzzleMoves"] = iframeDoc.getElementById("moves").innerHTML;
                     formValue["puzzleAvgMoveTime"] = iframeDoc.getElementById("avg").innerHTML;
                     return true;
                 }
                 else if (currentTab == 3) {
                     var iframeDoc = document.getElementById("block-game").contentWindow.document;
+                    // get metrics from this iframe
+                    var iframeWin = document.getElementById("block-game").contentWindow;
+                    nofMouseMoves_blockgame = iframeWin.nofMouseMoves; nofMouseClicks_blockgame = iframeWin.nofMouseClicks; nofWheelEvents_blockgame = iframeWin.nofWheelEvents; nofKeysPressed_blockgame = iframeWin.nofKeysPressed;
+                    mouseSpeedMin_blockgame = iframeWin.mouseSpeedMin; mouseSpeedMax_blockgame = iframeWin.mouseSpeedMax; mouseSpeedAvg_blockgame = iframeWin.mouseSpeedAvg;
+                    timeBetweenClicksMin_blockgame = iframeWin.timeBetweenClicksMin; timeBetweenClicksMax_blockgame = iframeWin.timeBetweenClicksMax; timeBetweenClicksAvg_blockgame = iframeWin.timeBetweenClicksAvg;
+                    timeBetweenKeysMin_blockgame = iframeWin.timeBetweenKeysMin; timeBetweenKeysMax_blockgame = iframeWin.timeBetweenKeysMax; timeBetweenKeysAvg_blockgame = iframeWin.timeBetweenKeysAvg;
+                    
                     return iframeDoc.getElementById("done").style.display != "none";
                 }
                 return true;
