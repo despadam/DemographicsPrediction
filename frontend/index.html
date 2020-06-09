@@ -73,6 +73,18 @@
                     
                     // DO SUBMIT
                     console.log(formValue);
+
+                    var xhr = new XMLHttpRequest();
+                    var url = "http://127.0.0.1:8002/metrics";
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            var json = JSON.parse(xhr.responseText);
+                            console.log(json);
+                        }
+                    };
+                    xhr.send(JSON.stringify(formValue));
                 }
                 showTab();
             }
@@ -115,8 +127,8 @@
                     mouseSpeedMin_text = iframeWin.mouseSpeedMin; mouseSpeedMax_text = iframeWin.mouseSpeedMax; mouseSpeedAvg_text = iframeWin.mouseSpeedAvg;
                     timeBetweenClicksMin_text = iframeWin.timeBetweenClicksMin; timeBetweenClicksMax_text = iframeWin.timeBetweenClicksMax; timeBetweenClicksAvg_text = iframeWin.timeBetweenClicksAvg;
                     timeBetweenKeysMin_text = iframeWin.timeBetweenKeysMin; timeBetweenKeysMax_text = iframeWin.timeBetweenKeysMax; timeBetweenKeysAvg_text = iframeWin.timeBetweenKeysAvg;
-                    formValue["typingTime"] = iframeDoc.getElementById("time").innerHTML;
-                    formValue["typingErrors"] = iframeDoc.getElementById("errors").innerHTML;
+                    formValue["typingTime"] = parseFloat(iframeDoc.getElementById("time").innerHTML);
+                    formValue["typingErrors"] = parseInt(iframeDoc.getElementById("errors").innerHTML);
                     return true;
                 }
                 else if (currentTab == 2) {
@@ -131,8 +143,8 @@
                     mouseSpeedMin_puzzle = iframeWin.mouseSpeedMin; mouseSpeedMax_puzzle = iframeWin.mouseSpeedMax; mouseSpeedAvg_puzzle = iframeWin.mouseSpeedAvg;
                     timeBetweenClicksMin_puzzle = iframeWin.timeBetweenClicksMin; timeBetweenClicksMax_puzzle = iframeWin.timeBetweenClicksMax; timeBetweenClicksAvg_puzzle = iframeWin.timeBetweenClicksAvg;
                     timeBetweenKeysMin_puzzle = iframeWin.timeBetweenKeysMin; timeBetweenKeysMax_puzzle = iframeWin.timeBetweenKeysMax; timeBetweenKeysAvg_puzzle = iframeWin.timeBetweenKeysAvg;
-                    formValue["puzzleMoves"] = iframeDoc.getElementById("moves").innerHTML;
-                    formValue["puzzleAvgMoveTime"] = iframeDoc.getElementById("avg").innerHTML;
+                    formValue["puzzleMoves"] = parseInt(iframeDoc.getElementById("moves").innerHTML);
+                    formValue["puzzleAvgMoveTime"] = parseFloat(iframeDoc.getElementById("avg").innerHTML);
                     return true;
                 }
                 else if (currentTab == 3) {

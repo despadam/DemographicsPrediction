@@ -2,15 +2,25 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const {Example} = require('./models/example');
+const {Metric} = require('./models/metric');
 
 const port = 8002;
 const app = express();
 
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
+
 app.listen(port, () => {
-    mongoose.connect('mongodb+srv://root:bosgavMAuEtKj1Ng@cluster0-havrp.azure.mongodb.net/demographics-db?retryWrites=true&w=majority', {
+    const url = 'mongodb+srv://root:1593572468@cluster0-jloqm.mongodb.net/test?retryWrites=true&w=majority';
+
+    mongoose.connect(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }, function(err, res) {
@@ -28,111 +38,69 @@ app.get('/', (req,res) => {
 });
 
 // get all
-app.get('/examples', (req, res, next) => {
-    Example.find()
-    .then((examples) => {
-        res.status(200).send(examples);
+app.get('/metrics', (req, res) => {
+    Metric.find()
+    .then((metrics) => {
+        res.status(200).send(metrics);
     },
     (error) => {
         res.status(400).send(error);
-    })
-    .catch((e) => {
-        next(e);
-    });
-});
-
-// get one
-app.get('/examples/:id', (req, res, next) => {
-    Example.findOne({
-        _id: req.params.id
-    })
-    .then((example) => {
-        if (!example) {
-            return res.status(404).send({
-                message: 'Unable to find example.'
-            });
-        }
-        res.status(200).send(example);
-    },
-    (error) => {
-        res.status(400).send(error);
-    })
-    .catch((e) => {
-        next(e);
     });
 });
 
 // create new
-app.post('/examples', (req, res, next) => {
-    const newExample = new Example({
-        field: req.body.field
+app.post('/metrics', (req, res) => {
+    const newMetric = new Metric({
+        gender: req.body.gender,
+        agegroup: req.body.agegroup,
+        mouseSpeedAvg: req.body.mouseSpeedAvg,
+        mouseSpeedMin: req.body.mouseSpeedMin,
+        mousespeedMax: req.body.mousespeedMax,
+        nofKeysPressed: req.body.nofKeysPressed,
+        nofMouseClicks: req.body.nofMouseClicks,
+        nofMouseMoves: req.body.nofMouseMoves,
+        nofWheelEvents: req.body.nofWheelEvents,
+        puzzleAvgMoveTime: req.body.puzzleAvgMoveTime,
+        puzzleMoves: req.body.puzzleMoves,
+        timeBetweenClicksAvg: req.body.timeBetweenClicksAvg,
+        timeBetweenClicksMax: req.body.timeBetweenClicksMax,
+        timeBetweenClicksMin: req.body.timeBetweenClicksMin,
+        timeBetweenKeysAvg: req.body.timeBetweenKeysAvg,
+        timeBetweenKeysMax: req.body.timeBetweenKeysMax,
+        timeBetweenKeysMin: req.body.timeBetweenKeysMin,
+        typingErrors: req.body.typingErrors,
+        typingTime: req.body.typingTime
     });
 
-    newExample.save()
-    .then((response) => {
+    newMetric.save()
+    .then(() => {
         res.status(200).send({
-            message: 'Example created successfully.'
+            message: 'Metric created successfully.'
         });
     },
     (error) => {
+        console.log(error);
         res.status(400).send(error);
-    })
-    .catch((e) => {
-        next(e);
-    });
-});
-
-// edit existing
-app.post('/examples/:id', (req, res, next) => {
-    Example.findOne({
-        _id: req.params.id
-    })
-    .then((example) => {
-        if (!example) {
-            return res.status(404).send({
-                message: 'Unable to find example.'
-            });
-        }
-
-        example.field = req.body.field;
-        example.save()
-        .then((response) => {
-            res.status(200).send({
-                message: 'Example updated successfully.'
-            });
-        },
-        (error) => {
-            res.status(400).send(error);
-        });
-    },
-    (error) => {
-        res.status(400).send(error);
-    })
-    .catch((e) => {
-        next(e);
     });
 });
 
 // delete one
-app.delete('/examples/:id', (req, res, next) => {
-    Example.findOneAndDelete({
+app.delete('/metrics/:id', (req, res) => {
+    Metric.findOneAndDelete({
         _id: req.params.id
     })
-    .then((example) => {
-        if (!example) {
+    .then((metric) => {
+        if (!metric) {
             return res.status(404).send({
-                message: 'Unable to find example.'
+                message: 'Unable to find metric.'
             });
         }
 
         res.status(200).send({
-            message: 'Example deleted successfully.'
+            message: 'Metric deleted successfully.'
         });
     },
     (error) => {
         res.status(400).send(error);
-    })
-    .catch((e) => {
-        next(e);
     });
 });
