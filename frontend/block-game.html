@@ -31,22 +31,8 @@
 			}
 
 			function startGame() {
-				var Xs = [], Ys = [];
-				for (var i = 0; i <= 460; i += 10) {
-					Xs.push(i);
-				}
-				for (var i = 0; i <= 260; i += 10) {
-					Ys.push(i);
-				}
-
-				var posX, posY;
-				posX = Xs[Math.floor(Math.random() * Xs.length)];
-				posY = Ys[Math.floor(Math.random() * Ys.length)];
-				myGamePiece = new pieceComponent(40, 40, "#990033", posX, posY);
-
-				posX = Xs[Math.floor(Math.random() * Xs.length)];
-				posY = Ys[Math.floor(Math.random() * Ys.length)];
-				myGameTarget = new targetComponent(40, 40, "#006600", posX, posY);
+				myGamePiece = new pieceComponent(40, 40, "#990033", 50, 50);
+				myGameTarget = new targetComponent(40, 40, "#006600", 400, 200);
 				myGameArea.start();
 			}
 

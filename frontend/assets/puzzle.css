@@ -11,14 +11,23 @@ body {
     position: relative;
 }
 
+#canvas {
+    cursor: pointer;
+}
+
 .text-container {
     position: absolute;
     width: 100%;
-    /* padding-top: 200px; */
     padding-top: 150px;
+    padding-bottom: 155px;
     text-align: center;
     font-size: 25px;
     color: lavender;
+    cursor: pointer;
+}
+
+#done {
+    cursor: default !important;
 }
 
 #metrics {
