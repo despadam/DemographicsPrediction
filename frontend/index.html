@@ -75,7 +75,7 @@
                     console.log(formValue);
 
                     var xhr = new XMLHttpRequest();
-                    var url = "http://127.0.0.1:8002/metrics";
+                    var url = "https://demographics-backend.herokuapp.com/metrics";
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-Type", "application/json");
                     xhr.onreadystatechange = function () {
