@@ -16,8 +16,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     const url = 'mongodb+srv://root:1593572468@cluster0-jloqm.mongodb.net/test?retryWrites=true&w=majority';
 
     mongoose.connect(url, {
@@ -28,7 +27,7 @@ app.listen(port, () => {
             return console.log(err);
         }
         else {
-            return console.log('Started on port', port);
+            return console.log('Application started successfully.');
         }
     });
 });
