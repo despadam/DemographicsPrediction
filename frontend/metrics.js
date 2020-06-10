@@ -33,7 +33,10 @@ function handleMouseMove(e) {
 function getMouseMove() {
     if (mouseMoved == true) {
         mouseMoved = false;
-        mouseSpeed = ( Math.sqrt( Math.pow(oldmouseX - mouseX, 2) + Math.pow(oldmouseY - mouseY, 2) )  ) / ( (timestamp - oldtimestamp) / 1000 ); 
+        if( (timestamp - oldtimestamp) <= 0 ){ // less than a ms
+            return;
+        }
+        mouseSpeed = ( Math.sqrt( Math.pow(oldmouseX - mouseX, 2) + Math.pow(oldmouseY - mouseY, 2) )  ) / ( (timestamp - oldtimestamp) / 1000 );
         mouseSpeedSum += mouseSpeed;
         nofMouseMoves += 1;
         mouseSpeedAvg = mouseSpeedSum / nofMouseMoves;
