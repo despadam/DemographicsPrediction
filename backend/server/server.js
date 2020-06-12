@@ -1,11 +1,15 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+const naivebayes = require('ml-naivebayes');
 
 const {Metric} = require('./models/metric');
 
 const port = 8002;
 const app = express();
+
+var agegroup_classifier;
+var gender_classifier;
 
 app.use(bodyParser.json());
 
@@ -45,6 +49,53 @@ app.get('/metrics', (req, res) => {
     (error) => {
         res.status(400).send(error);
     });
+});
+
+// train classifiers
+app.get('/train', (req, res) => {
+    Metric.find()
+    .then((metrics) =>{
+        // prepare data for training
+        data = [];
+        labels_agegroup = [];
+        labels_gender = [];
+        for(var i=0, l=metrics.length; i < l; i++){
+            point = [];
+            point.push(metrics[i].mouseSpeedAvg);
+            point.push(metrics[i].mouseSpeedMin);
+            point.push(metrics[i].mousespeedMax);
+            point.push(metrics[i].nofKeysPressed);
+            point.push(metrics[i].nofMouseClicks);
+            point.push(metrics[i].nofMouseMoves);
+            point.push(metrics[i].puzzleAvgMoveTime);
+            point.push(metrics[i].puzzleMoves);
+            point.push(metrics[i].timeBetweenClicksAvg);
+            point.push(metrics[i].timeBetweenClicksMax);
+            point.push(metrics[i].timeBetweenClicksMin);
+            point.push(metrics[i].timeBetweenKeysAvg);
+            point.push(metrics[i].timeBetweenClicksMax);
+            point.push(metrics[i].timeBetweenKeysMin);
+            point.push(metrics[i].typingErrors);
+            point.push(metrics[i].typingTime);
+            data.push(point);
+            labels_agegroup.push(metrics[i].agegroup);
+            labels_gender.push(metrics[i].gender);
+        }
+        genders = ['female', 'male'];
+        agegroups = ['underaged', 'young', 'adult', 'elderly'];
+        labels_gender = labels_gender.map((elem) => genders.indexOf(elem));
+        labels_agegroup = labels_agegroup.map((elem) => agegroups.indexOf(elem));
+        
+        // train the classifiers
+        agegroup_classifier = new naivebayes.MultinomialNB();
+        gender_classifier = new naivebayes.MultinomialNB();
+
+        agegroup_classifier.train(data, labels_agegroup);
+        gender_classifier.train(data, labels_gender);
+    },
+    (error) => {
+        res.status(400).send(error);
+    })
 });
 
 // create new
