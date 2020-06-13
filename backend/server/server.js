@@ -95,7 +95,7 @@ app.get('/train', (req, res) => {
         agegroup_classifier.train(data, labels_agegroup);
         gender_classifier.train(data, labels_gender);
 
-        console.log("Training successful!");
+        //console.log("Training successful!");
     },
     (error) => {
         res.status(400).send(error);

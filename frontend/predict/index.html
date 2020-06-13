@@ -86,8 +86,23 @@
                     };
                     xhr.send(JSON.stringify(formValue));
                     res = JSON.parse(xhr.response);
+                    
+                    var agegroup;
+                    if( res.agegroup == "underaged" ){
+                        agegroup = "< 18";
+                    }
+                    else if( res.agegroup == "young"){
+                        agegroup = "18 - 25";
+                    }
+                    else if( res.agegroup == "adult"){
+                        agegroup = "26 - 65";
+                    }
+                    else{
+                        agegroup = "> 65";
+                    }
+
                     //console.log(res);
-                    document.getElementById("prediction").innerHTML = "A " + res.agegroup + " " + res.gender;
+                    document.getElementById("prediction").innerHTML = "A " + res.gender + " of age " + agegroup;
                 }
                 showTab();
             }
