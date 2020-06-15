@@ -11,6 +11,9 @@ const app = express();
 var agegroup_classifier;
 var gender_classifier;
 
+const genders = ['female', 'male'];
+const agegroups = ['underaged', 'young', 'adult', 'elderly'];
+
 app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
@@ -31,12 +34,16 @@ app.listen(process.env.PORT || port, () => {
             return console.log(err);
         }
         else {
+            const options = { gainFunction: 'gini', maxDepth: 20, minNumSamples: 1 };
+            agegroup_classifier = new cart.DecisionTreeClassifier(options);
+            gender_classifier = new cart.DecisionTreeClassifier(options);
+
             return console.log('Application started successfully.');
         }
     });
 });
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     res.status(200).send('Hello :)');
 });
 
@@ -54,58 +61,58 @@ app.get('/metrics', (req, res) => {
 // train classifiers
 app.get('/train', (req, res) => {
     Metric.find()
-    .then((metrics) =>{
+    .then((metrics) => {
         // prepare data for training
-        data = [];
-        labels_agegroup = [];
-        labels_gender = [];
-        for(var i=0, l=metrics.length; i < l; i++){
-            var point = [];
-            point.push(metrics[i].mouseSpeedAvg);
-            point.push(metrics[i].mouseSpeedMin);
-            point.push(metrics[i].mouseSpeedMax);
-            point.push(metrics[i].nofKeysPressed);
-            point.push(metrics[i].nofMouseClicks);
-            point.push(metrics[i].nofMouseMoves);
-            point.push(metrics[i].puzzleAvgMoveTime);
-            point.push(metrics[i].puzzleMoves);
-            point.push(metrics[i].timeBetweenClicksAvg);
-            point.push(metrics[i].timeBetweenClicksMax);
-            point.push(metrics[i].timeBetweenClicksMin);
-            point.push(metrics[i].timeBetweenKeysAvg);
-            point.push(metrics[i].timeBetweenKeysMax);
-            point.push(metrics[i].timeBetweenKeysMin);
-            point.push(metrics[i].typingErrors);
-            point.push(metrics[i].typingTime);
+        let data = [];
+        let labels_agegroup = [];
+        let labels_gender = [];
+
+        for (let metric of metrics) {
+            let point = [];
+
+            point.push(metric.mouseSpeedAvg);
+            point.push(metric.mouseSpeedMin);
+            point.push(metric.mouseSpeedMax);
+            point.push(metric.nofKeysPressed);
+            point.push(metric.nofMouseClicks);
+            point.push(metric.nofMouseMoves);
+            point.push(metric.puzzleAvgMoveTime);
+            point.push(metric.puzzleMoves);
+            point.push(metric.timeBetweenClicksAvg);
+            point.push(metric.timeBetweenClicksMax);
+            point.push(metric.timeBetweenClicksMin);
+            point.push(metric.timeBetweenKeysAvg);
+            point.push(metric.timeBetweenKeysMax);
+            point.push(metric.timeBetweenKeysMin);
+            point.push(metric.typingErrors);
+            point.push(metric.typingTime);
+
             data.push(point);
-            labels_agegroup.push(metrics[i].agegroup);
-            labels_gender.push(metrics[i].gender);
+
+            labels_agegroup.push(metric.agegroup);
+            labels_gender.push(metric.gender);
         }
-        genders = ['female', 'male'];
-        agegroups = ['underaged', 'young', 'adult', 'elderly'];
+
         labels_gender = labels_gender.map((elem) => genders.indexOf(elem));
         labels_agegroup = labels_agegroup.map((elem) => agegroups.indexOf(elem));
 
         // train the classifiers
-        var options = { gainFunction: 'gini', maxDepth: 20, minNumSamples:1};
-
-        agegroup_classifier = new cart.DecisionTreeClassifier(options);
-        gender_classifier = new cart.DecisionTreeClassifier(options);
-
         agegroup_classifier.train(data, labels_agegroup);
         gender_classifier.train(data, labels_gender);
 
-        //console.log("Training successful!");
+        res.status(200).send({
+            message: 'Training completed successfully.'
+        });
     },
     (error) => {
         res.status(400).send(error);
     })
 });
 
-
 // predict
 app.post('/predict', (req, res) => {
-    var point = [];
+    let point = [];
+
     point.push(req.body.mouseSpeedAvg);
     point.push(req.body.mouseSpeedMin);
     point.push(req.body.mouseSpeedMax);
@@ -123,20 +130,17 @@ app.post('/predict', (req, res) => {
     point.push(req.body.typingErrors);
     point.push(req.body.typingTime);
 
-    var pred_age = agegroup_classifier.predict([point]);
-    var pred_gender = gender_classifier.predict([point]);
+    const pred_age = agegroup_classifier.predict([point]);
+    const pred_gender = gender_classifier.predict([point]);
 
-    var genders = ['female', 'male'];
-    var agegroups = ['underaged', 'young', 'adult', 'elderly'];
+    const predicted_agegroup = agegroups[pred_age[0]];
+    const predicted_gender = genders[pred_gender[0]];
 
-    var predicted_agegroup = agegroups[pred_age[0]];
-    var predicted_gender = genders[pred_gender[0]];
-    
     res.status(200).send({
-        agegroup: predicted_agegroup, gender: predicted_gender
+        agegroup: predicted_agegroup,
+        gender: predicted_gender
     });
 });
-
 
 // create new
 app.post('/metrics', (req, res) => {
