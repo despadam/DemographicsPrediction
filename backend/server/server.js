@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cart = require('ml-cart');
 
 const {Metric} = require('./models/metric');
+const {prepareTrain} = require('./utils');
 
 const port = 8002;
 const app = express();
@@ -38,13 +39,26 @@ app.listen(process.env.PORT || port, () => {
             agegroup_classifier = new cart.DecisionTreeClassifier(options);
             gender_classifier = new cart.DecisionTreeClassifier(options);
 
-            return console.log('Application started successfully.');
+            Metric.find()
+            .then((metrics) => {
+                // prepare data 
+                const results = prepareTrain(metrics, genders, agegroups);
+        
+                // train the classifiers
+                agegroup_classifier.train(results.data, results.labels_agegroup);
+                gender_classifier.train(results.data, results.labels_gender);
+        
+                return console.log('Application started successfully.');
+            },
+            (error) => {
+                return console.log(error);
+            });
         }
     });
 });
 
 app.get('/', (req, res) => {
-    res.status(200).send('Hello :)');
+    res.status(200).send('Demographics backend is working');
 });
 
 // get all
@@ -62,43 +76,12 @@ app.get('/metrics', (req, res) => {
 app.get('/train', (req, res) => {
     Metric.find()
     .then((metrics) => {
-        // prepare data for training
-        let data = [];
-        let labels_agegroup = [];
-        let labels_gender = [];
-
-        for (let metric of metrics) {
-            let point = [];
-
-            point.push(metric.mouseSpeedAvg);
-            point.push(metric.mouseSpeedMin);
-            point.push(metric.mouseSpeedMax);
-            point.push(metric.nofKeysPressed);
-            point.push(metric.nofMouseClicks);
-            point.push(metric.nofMouseMoves);
-            point.push(metric.puzzleAvgMoveTime);
-            point.push(metric.puzzleMoves);
-            point.push(metric.timeBetweenClicksAvg);
-            point.push(metric.timeBetweenClicksMax);
-            point.push(metric.timeBetweenClicksMin);
-            point.push(metric.timeBetweenKeysAvg);
-            point.push(metric.timeBetweenKeysMax);
-            point.push(metric.timeBetweenKeysMin);
-            point.push(metric.typingErrors);
-            point.push(metric.typingTime);
-
-            data.push(point);
-
-            labels_agegroup.push(metric.agegroup);
-            labels_gender.push(metric.gender);
-        }
-
-        labels_gender = labels_gender.map((elem) => genders.indexOf(elem));
-        labels_agegroup = labels_agegroup.map((elem) => agegroups.indexOf(elem));
+        // prepare data 
+        const results = prepareTrain(metrics, genders, agegroups);
 
         // train the classifiers
-        agegroup_classifier.train(data, labels_agegroup);
-        gender_classifier.train(data, labels_gender);
+        agegroup_classifier.train(results.data, results.labels_agegroup);
+        gender_classifier.train(results.data, results.labels_gender);
 
         res.status(200).send({
             message: 'Training completed successfully.'
