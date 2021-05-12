@@ -1,23 +1,15 @@
 # DemographicsPrediction
 
-Node installation:
+Data collection: https://alexkalts.github.io/DemographicsPrediction/frontend/
 
-1. curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-2. sudo apt-get install nodejs
+Predictor: https://alexkalts.github.io/DemographicsPrediction/frontend/predict/
 
-node --version (should be 12.16.2)
-
-npm --version (should be 6.14.4)
+Backend is running on: https://demographics-backend.herokuapp.com/
 
 ---
-Inside backend dir run:
 
-1. npm install (only once)
-2. node server/server.js
+Developed with:
 
----
-Notes:
+node --version (12.16.2)
 
-- package.json: Contains a list of the packages that we manually add using npm install --save < packagename >
-- package-lock.json: Is auto created and gets updated on every npm install. Contains the dependencies of our packages.
-- node_modules: Is auto created on npm install. Contains the files of our packages and their dependencies. We do not commit this dir.
+npm --version (6.14.4)
